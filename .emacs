@@ -14,6 +14,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;;debug
+(setq debug-on-error t)
 ;;防止在win7的卡死
 (setq w32-get-true-file-attributes nil)
 ;;标题栏提示你在什么位置
@@ -168,15 +170,23 @@ Replaces default behaviour of comment-dwim, when it inserts comment at the end o
 (browse-kill-ring-default-keybindings)
 ;;递归minibuffer
 (setq enable-recursive-minibuffers t)
-;;f5编译
-(global-set-key [f5] 'compile)
+;; ;;f5编译
+;; (global-set-key [f5] 'compile)
 ;;DIRED CONFIG
 (require 'dired)
 (require 'dired-x)
 ;; C-x C-j jump to folder under where the current file is
 (global-set-key "\C-x\C-j" 'dired-jump)
-(define-key dired-mode-map [(control ?/)] 'dired-undo
-;;;;;;;;;;;;; tabbar
+(define-key dired-mode-map [(control ?/)] 'dired-undo)
+
+(defun explorer-dired ()
+  (interactive)
+  (save-window-excursion
+	(dired-do-async-shell-command
+	 "open" current-prefix-arg
+	 (dired-get-marked-files t current-prefix-arg))))
+
+;;;;tabbar
 (require 'tabbar)
 (tabbar-mode t)
 (global-set-key (kbd "M-<up>") 'tabbar-backward-group)
